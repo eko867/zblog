@@ -36,7 +36,6 @@ class Category
     private $categoryName;
 
 
-
     /**
      * Get id
      *
@@ -93,5 +92,21 @@ class Category
     public function getCategoryName()
     {
         return $this->categoryName;
+    }
+
+    //пригодится для заполнения данными из Form
+    public function exchangeArray(array $array): void
+    {
+        foreach ($array as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = ($value !== null) ? $value : null;
+            }
+        }
+    }
+
+    //пригодится для передачи данных в Form
+    public function getArrayCopy():array
+    {
+        return get_object_vars($this);//возвращает поля объекта в виде ассоциативного массива
     }
 }

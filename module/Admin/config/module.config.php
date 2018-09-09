@@ -38,7 +38,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Admin\Controller\Index' => 'Admin\Controller\IndexController', //псевдоним => полное название
-            'category' => 'Admin\Controller\CategoryController' //псевдоним => полное название
+            'CategoryController' => 'Admin\Controller\CategoryController' //псевдоним => полное название
         ),
     ),
 
@@ -50,8 +50,8 @@ return array(
                 'options' => array(
                     'route' => '/admin/', //cам маршрут
                     'defaults' => array( //какой у admin маршрута контроллер и экшн по умолчанию
-                        'controller' => 'Admin\Controller\Index', //cм.раздел 'controllers'
-                        'action' => 'index',
+                        'controller' => 'Admin\Controller\Index', //cм.раздел 'controllers' строка 38
+                        'action' => 'index', //т.е indexAction у данного контроллера
                     ),
                 ),
 
@@ -64,8 +64,8 @@ return array(
                         'options' => array(
                             'route' => 'category/[:action/][:id/]', // т.е /admin/category/...
                             'defaults' => array(
-                                'controller' => 'category', //cм.раздел 'controllers'
-                                'action' => 'index'
+                                'controller' => 'CategoryController', //cм.раздел 'controllers' строка 38
+                                'action' => 'index'// т.е indexAction у данного контроллера
                             ),
                         ),
                     ),//сategory

@@ -1,0 +1,56 @@
+<div class="bs-docs-section">
+    <div class="well">
+        <?php
+        //$form к нам пришла из return'а addAction()
+
+        //добавляем к форме атрибут action, перенаправляющий нас на текущую страницу /admin/category/add/
+        //и активирующий экшн addAction у CategoryController
+        $form->setAttribute('action', $this->url('admin/category', ['action'=> 'add']));
+        //пока что необязательная вещь (если на форму мы попали после неудачного ввода полей, то в форме уже будут отражены, че не так ввели)
+        $form->prepare();
+
+        echo $this->form()->openTag($form); //эквивалентно <form и все атрибуты>
+        echo '<fieldset>
+            <legend>Добавление категории</legend>';
+            foreach ($form as $element){
+                echo '<div class="form-group">';
+                    $attributes= $element->getAttributes();
+
+                    if ($element->getLabel() ){ //если у поля формы есть label
+                        $element->setLabelAttributes(['class'=>'col-lg-2 control-label']); //пришиваем еще и класс (для style css)
+                        if (isset($attributes['required'])){
+                            $element->setLabel($element->getLabel().'&nbsp;*'); //помечаем что поле формы обязат.для заполнения
+                        }
+                    }
+
+                    if (isset($attributes['type']) && $attributes['type']=='text'){
+                        //если поле расчитано под текст, то выводим его label и содержание в div
+                        echo $this->formLabel($element);
+                        echo '<div class"col-lg-10">';
+                            echo $this->formInput($element);
+                        echo '</div>';
+                    } elseif (isset($attributes['type']) && $attributes['type']=='textarea'){
+                        //если поле расчитано под textarea, то рисуем его
+                        echo $this->formLabel($element);
+                        echo '<div class"col-lg-10">';
+                            echo $this->formTextArea($element);
+                        echo '</div>';
+                    } elseif (isset($attributes['type']) && $attributes['type']=='file'){
+                        //если поле расчитано под file, то рисуем под него
+                        echo $this->formLabel($element);
+                        echo '<div class"col-lg-10">';
+                            echo $this->formFile($element);
+                        echo '</div>';
+                    } else {
+                        //если поле расчитано хз под что, то рисуем поле как есть
+                        echo '<div class"col-lg-10">';
+                            echo $this->formRow($element);
+                        echo '</div>';
+                    }
+                echo '</div>';
+            }//foreach
+        echo '</fieldset>';
+        echo $this->form()->closeTag(); //эквивалентно </form>
+        ?>
+    </div>
+</div>
